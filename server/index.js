@@ -36,7 +36,7 @@ app.post('/api/chat', async (req, res) => {
       parts: [{ text: m.content }]
     }));
 
-    const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+    const modelName = process.env.GEMINI_MODEL || "gemini-3.6-flash";
 
     const response = await ai.models.generateContent({
       model: modelName,
@@ -54,5 +54,5 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`SunfiGPT Server running on port ${PORT}`));
