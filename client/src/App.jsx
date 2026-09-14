@@ -46,7 +46,7 @@ export default function App() {
   });
 
   const [theme, setTheme] = useState(() => {
-    return localStorage.getItem('sunfi_theme') || 'dark';
+    return localStorage.getItem('sunfi_theme') || 'light';
   });
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -253,6 +253,8 @@ export default function App() {
         isLoading={isLoading}
         onGoHome={handleGoHome}
         onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
       />
     </div>
   );

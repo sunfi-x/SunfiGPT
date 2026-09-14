@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import MessageBubble from './MessageBubble';
 import Landing from './Landing';
 import ModeSelector from './ModeSelector';
-import { Send, Home, Menu } from 'lucide-react';
+import { Send, Home, Menu, Sun, Moon } from 'lucide-react';
 
 export default function ChatView({
   messages,
@@ -14,6 +14,8 @@ export default function ChatView({
   isLoading,
   onGoHome,
   onToggleSidebar,
+  theme,
+  onToggleTheme,
 }) {
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
@@ -69,6 +71,9 @@ export default function ChatView({
           </div>
         </div>
         <div className="top-bar-right">
+          <button className="theme-icon-btn" onClick={onToggleTheme} title="Toggle Theme">
+            {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
+          </button>
           <button className="home-btn" onClick={onGoHome} title="Return to Home">
             <Home size={15} />
             <span>Home</span>

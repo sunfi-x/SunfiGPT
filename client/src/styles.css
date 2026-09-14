@@ -427,6 +427,30 @@ body {
   border-color: rgba(99, 102, 241, 0.4);
 }
 
+.top-bar-right {
+  gap: 0.5rem;
+}
+
+.theme-icon-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  color: var(--text-main);
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.theme-icon-btn:hover {
+  background: rgba(99, 102, 241, 0.2);
+  border-color: rgba(99, 102, 241, 0.4);
+  color: #818cf8;
+}
+
 /* Landing View */
 .landing-view {
   flex: 1;
