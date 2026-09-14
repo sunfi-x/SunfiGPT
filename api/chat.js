@@ -94,7 +94,7 @@ module.exports = async function handler(req, res) {
   try {
     const DEFAULT_KEY = Buffer.from('QVEuQWI4Uk42SlA5QVRRVWZxXzVJbEV6NWt3T0NhdjdnYndVNmlSdjVIbExUVnljRXlxM3c=', 'base64').toString('utf-8');
     const apiKey = process.env.GEMINI_API_KEY || DEFAULT_KEY;
-    const modelName = "gemini-3-flash-preview";
+    const modelName = "gemini-3.5-flash-lite";
 
     let body = req.body;
     if (typeof body === 'string') {

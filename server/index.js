@@ -37,7 +37,7 @@ app.post('/api/chat', async (req, res) => {
       parts: [{ text: m.content }]
     }));
 
-    const modelName = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
+    const modelName = process.env.GEMINI_MODEL || "gemini-3.5-flash-lite";
 
     const response = await ai.models.generateContent({
       model: modelName,
