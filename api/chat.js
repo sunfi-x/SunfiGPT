@@ -94,8 +94,12 @@ module.exports = async function handler(req, res) {
   try {
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      return res.status(500).json({ error: "GEMINI_API_KEY missing. Vercel environment variable set koroni!" });
+      return res.status(500).json({
+        error: "GEMINI_API_KEY Environment Variable missing on Vercel Production!",
+        details: "Please add GEMINI_API_KEY to Vercel Environment Variables for Production environment, then click Redeploy."
+      });
     }
+    const modelName = "gemini-3-flash-preview";
 
     const { messages, mode, userName } = req.body || {};
 
@@ -108,7 +112,6 @@ module.exports = async function handler(req, res) {
       parts: [{ text: m.content }]
     }));
 
-    const modelName = process.env.GEMINI_MODEL || "gemini-3-flash-preview";
     const ai = new GoogleGenAI({ apiKey });
 
     const response = await ai.models.generateContent({
