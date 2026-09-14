@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import MessageBubble from './MessageBubble';
 import Landing from './Landing';
 import ModeSelector from './ModeSelector';
@@ -14,6 +14,21 @@ export default function ChatView({
 }) {
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
+
+  const placeholders = [
+    "Sunfi ke moner kotha bol...",
+    "Ja bolar bolo bhai...",
+    "Type kor, judge korbo na...",
+    "Ki hoise?",
+    "Bolo, ami shuntesi...",
+    "Ajke ki pera?",
+    "Kotha bolo, AI chup kore ache...",
+    "Enter your nonsense..."
+  ];
+
+  const placeholderText = useMemo(() => {
+    return placeholders[Math.floor(Math.random() * placeholders.length)];
+  }, [messages.length]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -60,8 +75,8 @@ export default function ChatView({
           {isLoading && (
             <div className="message-bubble assistant">
               <div className="avatar assistant">S</div>
-              <div className="message-content" style={{ color: '#94a3b8', italic: true }}>
-                Sunfi typewriter er shob key khujtese... 💭
+              <div className="message-content" style={{ color: '#94a3b8', fontStyle: 'italic' }}>
+                Sunfi typewriter er shob key khujtese...
               </div>
             </div>
           )}
@@ -73,7 +88,7 @@ export default function ChatView({
         <form onSubmit={handleSubmit} className="input-container">
           <textarea
             className="chat-input"
-            placeholder="Sunfi ke pathao kotha..."
+            placeholder={placeholderText}
             rows={1}
             value={input}
             onChange={(e) => setInput(e.target.value)}

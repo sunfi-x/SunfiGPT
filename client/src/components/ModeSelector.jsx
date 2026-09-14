@@ -9,8 +9,11 @@ export default function ModeSelector({ mode, onModeChange }) {
         onChange={(e) => onModeChange(e.target.value)}
         className="mode-select"
       >
-        <option value="turbo">🚀 Sunfi Turbo (Balanced Slang)</option>
-        <option value="ultra">⚡ Sunfi Ultra (Heavy Slang)</option>
+        <option value="turbo">Sunfi Turbo - Heavy Slang</option>
+        <option value="advisor">Advisor Mode - Bhai Shun</option>
+        <option value="clown">Clown Mode - Don't Take Me Seriously</option>
+        <option value="philosopher">Philosopher Mode - Life Keno Erokom</option>
+        <option value="villain">Villain Mode - Proceed at Your Own Risk</option>
       </select>
     </div>
   );

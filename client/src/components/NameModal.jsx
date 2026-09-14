@@ -13,7 +13,7 @@ export default function NameModal({ onSubmit, initialName = '' }) {
   return (
     <div className="modal-overlay">
       <div className="modal-card">
-        <h2>🔥 Welcome to SunfiGPT!</h2>
+        <h2>Welcome to SunfiGPT</h2>
         <p>Aage bol tor naam ki? Personalization naki khepabar jonno lagbe!</p>
         <form onSubmit={handleSubmit}>
           <input
@@ -26,7 +26,7 @@ export default function NameModal({ onSubmit, initialName = '' }) {
             required
           />
           <button type="submit" className="submit-btn">
-            Let's Go 🚀
+            Let's Go
           </button>
         </form>
       </div>

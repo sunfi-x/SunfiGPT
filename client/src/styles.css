@@ -239,7 +239,7 @@ body {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 1rem;
-  max-width: 600px;
+  max-width: 650px;
   width: 100%;
 }
 
@@ -251,8 +251,23 @@ body {
   text-align: left;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-size: 0.92rem;
   color: #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.card-category {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #818cf8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.card-text {
+  font-size: 0.92rem;
+  color: #e2e8f0;
 }
 
 .suggestion-card:hover {

@@ -51,7 +51,7 @@ export default function Sidebar({
 
       <div className="user-profile">
         <div className="user-info">
-          <span>👋 {userName}</span>
+          <span>{userName}</span>
         </div>
         <button className="edit-name-btn" onClick={onEditName} title="Edit Name">
           <Edit2 size={14} />
