@@ -61,17 +61,18 @@ export default function ChatView({
       <header className="top-bar">
         <div className="top-bar-left">
           <button className="mobile-menu-btn" onClick={onToggleSidebar} title="Open Menu">
-            <Menu size={20} />
+            <Menu size={22} />
           </button>
-          <div style={{ fontWeight: 700, fontSize: '1.1rem', color: 'var(--text-main)' }}>
-            SunfiGPT
+          <div className="top-bar-brand" onClick={onGoHome} title="Return to Home">
+            <img src="/sunfi.jpg" alt="Sunfi" className="top-bar-logo" />
+            <span className="top-bar-title">SunfiGPT</span>
           </div>
-          {messages.length > 0 && (
-            <button className="home-btn" onClick={onGoHome} title="Return to Home">
-              <Home size={15} />
-              <span>Home</span>
-            </button>
-          )}
+        </div>
+        <div className="top-bar-right">
+          <button className="home-btn" onClick={onGoHome} title="Return to Home">
+            <Home size={15} />
+            <span>Home</span>
+          </button>
         </div>
       </header>
 
