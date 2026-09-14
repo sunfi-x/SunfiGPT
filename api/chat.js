@@ -108,7 +108,7 @@ module.exports = async function handler(req, res) {
       parts: [{ text: m.content }]
     }));
 
-    const modelName = process.env.GEMINI_MODEL || "gemini-2.5-flash";
+    const modelName = process.env.GEMINI_MODEL || "gemini-3.6-flash";
     const ai = new GoogleGenAI({ apiKey });
 
     const response = await ai.models.generateContent({
