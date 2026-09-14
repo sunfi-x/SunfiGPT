@@ -55,5 +55,16 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
+const path = require('path');
+
+// Serve static assets in production
+app.use(express.static(path.join(__dirname, '../client/dist')));
+
+app.get('*', (req, res) => {
+  if (!req.path.startsWith('/api')) {
+    res.sendFile(path.join(__dirname, '../client/dist/index.html'));
+  }
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => console.log(`SunfiGPT Server running on port ${PORT}`));

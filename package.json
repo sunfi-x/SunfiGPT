@@ -1,0 +1,15 @@
+{
+  "name": "sunfigpt",
+  "version": "1.0.0",
+  "description": "SunfiGPT - Bengali Persona Chat Web Application",
+  "main": "server/index.js",
+  "scripts": {
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "cd client && npm install && npm run build",
+    "build:server": "cd server && npm install",
+    "start": "node server/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
