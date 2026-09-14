@@ -1,9 +1,17 @@
 {
+  "version": 2,
   "buildCommand": "cd client && npm install && npm run build",
   "outputDirectory": "client/dist",
+  "installCommand": "npm install",
+  "functions": {
+    "api/chat.js": {
+      "runtime": "nodejs20.x",
+      "maxDuration": 30
+    }
+  },
   "rewrites": [
     {
-      "source": "/((?!api/.*).*)",
+      "source": "/((?!api/).*)",
       "destination": "/index.html"
     }
   ]
