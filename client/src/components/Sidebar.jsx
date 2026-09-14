@@ -1,5 +1,5 @@
-import React from 'react';
-import { Plus, Trash2, Edit2, MessageSquare } from 'lucide-react';
+import React, { useRef } from 'react';
+import { Plus, Trash2, Edit2, MessageSquare, Camera } from 'lucide-react';
 
 export default function Sidebar({
   sessions,
@@ -8,8 +8,23 @@ export default function Sidebar({
   onNewChat,
   onDeleteSession,
   userName,
+  userAvatar,
   onEditName,
+  onUploadAvatar,
 }) {
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        onUploadAvatar(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   return (
     <aside className="sidebar">
       <div className="brand-header">
@@ -51,8 +66,29 @@ export default function Sidebar({
 
       <div className="user-profile">
         <div className="user-info">
+          <div
+            className="avatar user sidebar-avatar"
+            onClick={() => fileInputRef.current?.click()}
+            title="Change Profile Picture"
+          >
+            {userAvatar ? (
+              <img src={userAvatar} alt={userName} className="avatar-img" />
+            ) : (
+              userName.charAt(0).toUpperCase()
+            )}
+            <div className="avatar-upload-overlay">
+              <Camera size={12} />
+            </div>
+          </div>
           <span>{userName}</span>
         </div>
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileChange}
+          accept="image/*"
+          style={{ display: 'none' }}
+        />
         <button className="edit-name-btn" onClick={onEditName} title="Edit Name">
           <Edit2 size={14} />
         </button>

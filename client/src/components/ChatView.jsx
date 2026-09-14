@@ -9,6 +9,7 @@ export default function ChatView({
   mode,
   onModeChange,
   userName,
+  userAvatar,
   onSendMessage,
   isLoading,
 }) {
@@ -59,7 +60,6 @@ export default function ChatView({
         <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#e2e8f0' }}>
           SunfiGPT
         </div>
-        <ModeSelector mode={mode} onModeChange={onModeChange} />
       </header>
 
       {messages.length === 0 ? (
@@ -70,7 +70,12 @@ export default function ChatView({
       ) : (
         <div className="chat-container">
           {messages.map((msg, index) => (
-            <MessageBubble key={index} message={msg} userName={userName} />
+            <MessageBubble
+              key={index}
+              message={msg}
+              userName={userName}
+              userAvatar={userAvatar}
+            />
           ))}
           {isLoading && (
             <div className="message-bubble assistant">
@@ -85,6 +90,9 @@ export default function ChatView({
       )}
 
       <div className="input-container-wrapper">
+        <div className="input-box-header">
+          <ModeSelector mode={mode} onModeChange={onModeChange} />
+        </div>
         <form onSubmit={handleSubmit} className="input-container">
           <textarea
             className="chat-input"

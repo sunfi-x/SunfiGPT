@@ -9,6 +9,10 @@ export default function App() {
     return localStorage.getItem('sunfi_username') || '';
   });
 
+  const [userAvatar, setUserAvatar] = useState(() => {
+    return localStorage.getItem('sunfi_user_avatar') || '';
+  });
+
   const [showNameModal, setShowNameModal] = useState(false);
 
   const [sessions, setSessions] = useState(() => {
@@ -36,12 +40,15 @@ export default function App() {
     localStorage.setItem('sunfi_sessions', JSON.stringify(sessions));
   }, [sessions]);
 
-  const activeSession = sessions.find((s) => s.id === activeSessionId) || sessions[0];
-
   const handleSaveName = (name) => {
     setUserName(name);
     localStorage.setItem('sunfi_username', name);
     setShowNameModal(false);
+  };
+
+  const handleUploadAvatar = (base64Image) => {
+    setUserAvatar(base64Image);
+    localStorage.setItem('sunfi_user_avatar', base64Image);
   };
 
   const handleNewChat = () => {
@@ -58,6 +65,8 @@ export default function App() {
       setActiveSessionId(updated[0].id);
     }
   };
+
+  const activeSession = sessions.find((s) => s.id === activeSessionId) || sessions[0];
 
   const handleSendMessage = async (text) => {
     if (!text.trim()) return;
@@ -135,7 +144,9 @@ export default function App() {
         onNewChat={handleNewChat}
         onDeleteSession={handleDeleteSession}
         userName={userName || 'Bondhu'}
+        userAvatar={userAvatar}
         onEditName={() => setShowNameModal(true)}
+        onUploadAvatar={handleUploadAvatar}
       />
 
       <ChatView
@@ -143,6 +154,7 @@ export default function App() {
         mode={mode}
         onModeChange={setMode}
         userName={userName || 'Bondhu'}
+        userAvatar={userAvatar}
         onSendMessage={handleSendMessage}
         isLoading={isLoading}
       />

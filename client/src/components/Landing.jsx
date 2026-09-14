@@ -1,4 +1,14 @@
 import React, { useMemo } from 'react';
+import {
+  Zap,
+  Brain,
+  HeartOff,
+  GraduationCap,
+  Users,
+  Compass,
+  ShieldAlert,
+  Sparkles
+} from 'lucide-react';
 
 export default function Landing({ userName, onSelectPrompt }) {
   const greetings = [
@@ -27,14 +37,46 @@ export default function Landing({ userName, onSelectPrompt }) {
   }, []);
 
   const suggestionCards = [
-    { title: "Roast Me", text: "Mama ajke amake ektu heavy roast koro to!" },
-    { title: "Life Crisis", text: "Bhai amar life-er ki obostha ektu analyze kor." },
-    { title: "Ex Problems", text: "Bhai ekta situation hoise... judge korish na." },
-    { title: "Academic Crisis", text: "Bhai porashona korte iccha kortese na, ki kori?" },
-    { title: "Friend Group", text: "Amader group-er moddhe ashol clown ke?" },
-    { title: "Philosophical", text: "Tor life-er meaning niye kichu deep kotha bol." },
-    { title: "Emergency", text: "Bhai emergency, ekhon serious advice lagbe." },
-    { title: "Random", text: "Ekta ajaira question ache." }
+    {
+      title: "Roast Me",
+      text: "Mama ajke amake ektu heavy roast koro to!",
+      icon: <Zap size={16} className="card-icon" />
+    },
+    {
+      title: "Life Crisis",
+      text: "Bhai amar life-er ki obostha ektu analyze kor.",
+      icon: <Brain size={16} className="card-icon" />
+    },
+    {
+      title: "Ex Problems",
+      text: "Bhai ekta situation hoise... judge korish na.",
+      icon: <HeartOff size={16} className="card-icon" />
+    },
+    {
+      title: "Academic Crisis",
+      text: "Bhai porashona korte iccha kortese na, ki kori?",
+      icon: <GraduationCap size={16} className="card-icon" />
+    },
+    {
+      title: "Friend Group",
+      text: "Amader group-er moddhe ashol clown ke?",
+      icon: <Users size={16} className="card-icon" />
+    },
+    {
+      title: "Philosophical",
+      text: "Tor life-er meaning niye kichu deep kotha bol.",
+      icon: <Compass size={16} className="card-icon" />
+    },
+    {
+      title: "Emergency",
+      text: "Bhai emergency, ekhon serious advice lagbe.",
+      icon: <ShieldAlert size={16} className="card-icon" />
+    },
+    {
+      title: "Random",
+      text: "Ekta ajaira question ache.",
+      icon: <Sparkles size={16} className="card-icon" />
+    }
   ];
 
   return (
@@ -49,7 +91,10 @@ export default function Landing({ userName, onSelectPrompt }) {
             className="suggestion-card"
             onClick={() => onSelectPrompt(card.text)}
           >
-            <div className="card-category">{card.title}</div>
+            <div className="card-category">
+              {card.icon}
+              <span>{card.title}</span>
+            </div>
             <div className="card-text">{card.text}</div>
           </div>
         ))}
