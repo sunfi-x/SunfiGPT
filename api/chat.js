@@ -96,7 +96,14 @@ module.exports = async function handler(req, res) {
     const apiKey = process.env.GEMINI_API_KEY || DEFAULT_KEY;
     const modelName = "gemini-3-flash-preview";
 
-    const { messages, mode, userName } = req.body || {};
+    let body = req.body;
+    if (typeof body === 'string') {
+      try {
+        body = JSON.parse(body);
+      } catch (e) {}
+    }
+
+    const { messages, mode, userName } = body || {};
 
     if (!messages || !Array.isArray(messages) || messages.length === 0) {
       return res.status(400).json({ error: "Messages array is required." });
@@ -123,8 +130,8 @@ module.exports = async function handler(req, res) {
   } catch (err) {
     console.error("Gemini API Error:", err);
     return res.status(500).json({
-      error: "Sunfi ekhon busy, ektu por try koro.",
-      details: err.message || String(err)
+      reply: "Sunfi ekhon busy (" + (err.message || String(err)) + ")",
+      error: err.message || String(err)
     });
   }
 };
