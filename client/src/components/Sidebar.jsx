@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Plus, Trash2, Edit2, MessageSquare, Camera } from 'lucide-react';
 
 export default function Sidebar({
@@ -13,6 +13,7 @@ export default function Sidebar({
   onUploadAvatar,
 }) {
   const fileInputRef = useRef(null);
+  const [logoImgError, setLogoImgError] = useState(false);
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
@@ -28,7 +29,18 @@ export default function Sidebar({
   return (
     <aside className="sidebar">
       <div className="brand-header">
-        <div className="brand-logo">S</div>
+        <div className="brand-logo">
+          {!logoImgError ? (
+            <img
+              src="/sunfi.png"
+              alt="Sunfi"
+              className="avatar-img"
+              onError={() => setLogoImgError(true)}
+            />
+          ) : (
+            'S'
+          )}
+        </div>
         <h1 className="brand-title">SunfiGPT</h1>
       </div>
 

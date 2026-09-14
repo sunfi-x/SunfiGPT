@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function MessageBubble({ message, userName, userAvatar }) {
   const isUser = message.role === 'user';
+  const [imgError, setImgError] = useState(false);
 
   return (
     <div className={`message-bubble ${isUser ? 'user' : 'assistant'}`}>
@@ -13,7 +14,16 @@ export default function MessageBubble({ message, userName, userAvatar }) {
             userName.charAt(0).toUpperCase()
           )
         ) : (
-          'S'
+          !imgError ? (
+            <img
+              src="/sunfi.png"
+              alt="Sunfi"
+              className="avatar-img"
+              onError={() => setImgError(true)}
+            />
+          ) : (
+            'S'
+          )
         )}
       </div>
       <div className="message-content">{message.content}</div>

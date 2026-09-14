@@ -79,7 +79,17 @@ export default function ChatView({
           ))}
           {isLoading && (
             <div className="message-bubble assistant">
-              <div className="avatar assistant">S</div>
+              <div className="avatar assistant">
+                <img
+                  src="/sunfi.png"
+                  alt="Sunfi"
+                  className="avatar-img"
+                  onError={(e) => {
+                    e.target.style.display = 'none';
+                    e.target.parentNode.innerText = 'S';
+                  }}
+                />
+              </div>
               <div className="message-content" style={{ color: '#94a3b8', fontStyle: 'italic' }}>
                 Sunfi typewriter er shob key khujtese...
               </div>
