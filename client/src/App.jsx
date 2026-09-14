@@ -236,8 +236,6 @@ export default function App() {
         onEditName={() => setShowNameModal(true)}
         onLogout={handleLogout}
         onUploadAvatar={handleUploadAvatar}
-        theme={theme}
-        onToggleTheme={handleToggleTheme}
         onGoHome={handleGoHome}
         isOpen={isSidebarOpen}
         onClose={() => setIsSidebarOpen(false)}

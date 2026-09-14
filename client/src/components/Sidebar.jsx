@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Plus, Trash2, Edit2, MessageSquare, Camera, Sun, Moon, X, LogOut } from 'lucide-react';
+import { Plus, Trash2, Edit2, MessageSquare, Camera, X, LogOut } from 'lucide-react';
 
 export default function Sidebar({
   sessions,
@@ -12,8 +12,6 @@ export default function Sidebar({
   onEditName,
   onLogout,
   onUploadAvatar,
-  theme,
-  onToggleTheme,
   onGoHome,
   isOpen,
   onClose,
@@ -89,10 +87,6 @@ export default function Sidebar({
           ))}
         </div>
 
-        <button className="theme-toggle-btn" onClick={onToggleTheme}>
-          {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
-          <span>{theme === 'dark' ? 'Light Mode' : 'Dark Mode'}</span>
-        </button>
 
         <div className="user-profile">
           <div className="user-info">
