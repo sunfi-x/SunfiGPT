@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { Plus, Trash2, Edit2, MessageSquare, Camera, Sun, Moon, X } from 'lucide-react';
+import { Plus, Trash2, Edit2, MessageSquare, Camera, Sun, Moon, X, LogOut } from 'lucide-react';
 
 export default function Sidebar({
   sessions,
@@ -10,6 +10,7 @@ export default function Sidebar({
   userName,
   userAvatar,
   onEditName,
+  onLogout,
   onUploadAvatar,
   theme,
   onToggleTheme,
@@ -118,9 +119,14 @@ export default function Sidebar({
             accept="image/*"
             style={{ display: 'none' }}
           />
-          <button className="edit-name-btn" onClick={onEditName} title="Edit Name">
-            <Edit2 size={14} />
-          </button>
+          <div className="user-profile-actions">
+            <button className="edit-name-btn" onClick={onEditName} title="Edit Name">
+              <Edit2 size={14} />
+            </button>
+            <button className="logout-btn" onClick={onLogout} title="Log Out">
+              <LogOut size={14} />
+            </button>
+          </div>
         </div>
       </aside>
     </>

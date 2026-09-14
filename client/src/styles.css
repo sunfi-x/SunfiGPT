@@ -299,16 +299,34 @@ body {
   opacity: 1;
 }
 
-.edit-name-btn {
+.user-profile-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.edit-name-btn,
+.logout-btn {
   background: none;
   border: none;
   color: var(--text-muted);
   cursor: pointer;
-  transition: color 0.2s;
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
 }
 
 .edit-name-btn:hover {
-  color: var(--text-main);
+  background-color: var(--card-bg);
+  color: #818cf8;
+}
+
+.logout-btn:hover {
+  background-color: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
 }
 
 /* Main Workspace */

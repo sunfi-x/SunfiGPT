@@ -211,6 +211,14 @@ export default function App() {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('sunfi_username');
+    setUserName('');
+    setUserAvatar('');
+    setShowNameModal(true);
+    setIsSidebarOpen(false);
+  };
+
   return (
     <div className="app-container" data-theme={theme}>
       {showNameModal && (
@@ -226,6 +234,7 @@ export default function App() {
         userName={userName || 'Bondhu'}
         userAvatar={userAvatar}
         onEditName={() => setShowNameModal(true)}
+        onLogout={handleLogout}
         onUploadAvatar={handleUploadAvatar}
         theme={theme}
         onToggleTheme={handleToggleTheme}
