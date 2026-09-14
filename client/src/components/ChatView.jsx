@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import MessageBubble from './MessageBubble';
 import Landing from './Landing';
 import ModeSelector from './ModeSelector';
-import { Send } from 'lucide-react';
+import { Send, Home, Menu } from 'lucide-react';
 
 export default function ChatView({
   messages,
@@ -12,6 +12,8 @@ export default function ChatView({
   userAvatar,
   onSendMessage,
   isLoading,
+  onGoHome,
+  onToggleSidebar,
 }) {
   const [input, setInput] = useState('');
   const messagesEndRef = useRef(null);
@@ -23,7 +25,7 @@ export default function ChatView({
     "Ki hoise?",
     "Bolo, ami shuntesi...",
     "Ajke ki pera?",
-    "Kotha bolo, AI chup kore ache...",
+    "Kotha bolo, bolte thako...",
     "Enter your nonsense..."
   ];
 
@@ -57,8 +59,19 @@ export default function ChatView({
   return (
     <div className="main-content">
       <header className="top-bar">
-        <div style={{ fontWeight: 700, fontSize: '1.1rem', color: '#e2e8f0' }}>
-          SunfiGPT
+        <div className="top-bar-left">
+          <button className="mobile-menu-btn" onClick={onToggleSidebar} title="Open Menu">
+            <Menu size={20} />
+          </button>
+          <div style={{ fontWeight: 700, fontSize: '1.1rem', color: 'var(--text-main)' }}>
+            SunfiGPT
+          </div>
+          {messages.length > 0 && (
+            <button className="home-btn" onClick={onGoHome} title="Return to Home">
+              <Home size={15} />
+              <span>Home</span>
+            </button>
+          )}
         </div>
       </header>
 
@@ -81,7 +94,7 @@ export default function ChatView({
             <div className="message-bubble assistant">
               <div className="avatar assistant">
                 <img
-                  src="/sunfi.png"
+                  src="/sunfi.jpg"
                   alt="Sunfi"
                   className="avatar-img"
                   onError={(e) => {
@@ -90,8 +103,8 @@ export default function ChatView({
                   }}
                 />
               </div>
-              <div className="message-content" style={{ color: '#94a3b8', fontStyle: 'italic' }}>
-                Sunfi typewriter er shob key khujtese...
+              <div className="message-content" style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>
+                Sunfi Google na, nijer brain use kortese...
               </div>
             </div>
           )}

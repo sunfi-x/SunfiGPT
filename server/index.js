@@ -43,11 +43,12 @@ app.post('/api/chat', async (req, res) => {
       contents: formattedHistory,
       config: {
         systemInstruction: getSystemPrompt(mode, userName),
-        maxOutputTokens: 700,
+        maxOutputTokens: 2048,
       }
     });
 
-    res.json({ reply: response.text });
+    const replyText = response.text || "Amar kichu bolar nai ekhon.";
+    res.json({ reply: replyText });
   } catch (err) {
     console.error("Gemini API Error:", err);
     res.status(500).json({ error: "Sunfi ekhon busy, ektu por try koro." });

@@ -1,37 +1,79 @@
-import React from 'react';
-import { Zap, UserCheck, Smile, BookOpen, Skull } from 'lucide-react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Zap, ShieldCheck, Brain, Check, ChevronDown } from 'lucide-react';
 
 export default function ModeSelector({ mode, onModeChange }) {
-  const getIcon = (modeKey) => {
-    switch (modeKey) {
-      case 'advisor':
-        return <UserCheck size={15} className="mode-icon" />;
-      case 'clown':
-        return <Smile size={15} className="mode-icon" />;
-      case 'philosopher':
-        return <BookOpen size={15} className="mode-icon" />;
-      case 'villain':
-        return <Skull size={15} className="mode-icon" />;
-      case 'turbo':
-      default:
-        return <Zap size={15} className="mode-icon" />;
+  const [isOpen, setIsOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
+  const modes = [
+    {
+      id: 'turbo',
+      label: 'Sunfi Turbo',
+      desc: 'Heavy slang & savage banter',
+      icon: <Zap size={16} style={{ color: '#818cf8' }} />
+    },
+    {
+      id: 'advisor',
+      label: 'Sunfi Advisor',
+      desc: 'Brotherly advice & guidance',
+      icon: <ShieldCheck size={16} style={{ color: '#34d399' }} />
+    },
+    {
+      id: 'philosopher',
+      label: 'Sunfi Philosopher',
+      desc: 'Deep existential thoughts',
+      icon: <Brain size={16} style={{ color: '#c084fc' }} />
     }
-  };
+  ];
+
+  const currentModeObj = modes.find((m) => m.id === mode) || modes[0];
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
-    <div className="mode-selector-inline">
-      {getIcon(mode)}
-      <select
-        value={mode}
-        onChange={(e) => onModeChange(e.target.value)}
-        className="mode-select-inline"
+    <div className="custom-mode-dropdown-container" ref={dropdownRef}>
+      <button
+        type="button"
+        className="mode-selector-pill"
+        onClick={() => setIsOpen((prev) => !prev)}
       >
-        <option value="turbo">Sunfi Turbo - Heavy Slang</option>
-        <option value="advisor">Advisor Mode - Bhai Shun</option>
-        <option value="clown">Clown Mode - Don't Take Me Seriously</option>
-        <option value="philosopher">Philosopher Mode - Life Keno Erokom</option>
-        <option value="villain">Villain Mode - Proceed at Your Own Risk</option>
-      </select>
+        {currentModeObj.icon}
+        <span className="mode-pill-label">{currentModeObj.label}</span>
+        <ChevronDown size={14} className={`chevron-icon ${isOpen ? 'open' : ''}`} />
+      </button>
+
+      {isOpen && (
+        <div className="custom-dropdown-menu">
+          {modes.map((m) => {
+            const isSelected = m.id === mode;
+            return (
+              <div
+                key={m.id}
+                className={`custom-dropdown-item ${isSelected ? 'selected' : ''}`}
+                onClick={() => {
+                  onModeChange(m.id);
+                  setIsOpen(false);
+                }}
+              >
+                <div className="item-icon-wrapper">{m.icon}</div>
+                <div className="item-text-wrapper">
+                  <div className="item-title">{m.label}</div>
+                  <div className="item-desc">{m.desc}</div>
+                </div>
+                {isSelected && <Check size={16} className="item-check" />}
+              </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

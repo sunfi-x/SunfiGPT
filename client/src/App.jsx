@@ -4,27 +4,60 @@ import ChatView from './components/ChatView';
 import NameModal from './components/NameModal';
 import './styles.css';
 
+const getUserKey = (name) => {
+  if (!name || !name.trim()) return 'guest';
+  return name.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '_');
+};
+
+const getStoredSessionsForUser = (name) => {
+  if (!name) return [{ id: `session-${Date.now()}`, title: 'New Chat', messages: [] }];
+  const key = getUserKey(name);
+  const userSaved = localStorage.getItem(`sunfi_sessions_${key}`);
+  if (userSaved) {
+    try {
+      const parsed = JSON.parse(userSaved);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    } catch (e) {}
+  }
+  // Fallback to legacy global sessions if available for initial migration
+  const legacySaved = localStorage.getItem('sunfi_sessions');
+  if (legacySaved) {
+    try {
+      const parsed = JSON.parse(legacySaved);
+      if (Array.isArray(parsed) && parsed.length > 0) return parsed;
+    } catch (e) {}
+  }
+  return [{ id: `session-${Date.now()}`, title: 'New Chat', messages: [] }];
+};
+
+const getStoredAvatarForUser = (name) => {
+  if (!name) return '';
+  const key = getUserKey(name);
+  return localStorage.getItem(`sunfi_avatar_${key}`) || localStorage.getItem('sunfi_user_avatar') || '';
+};
+
 export default function App() {
   const [userName, setUserName] = useState(() => {
     return localStorage.getItem('sunfi_username') || '';
   });
 
   const [userAvatar, setUserAvatar] = useState(() => {
-    return localStorage.getItem('sunfi_user_avatar') || '';
+    return getStoredAvatarForUser(localStorage.getItem('sunfi_username') || '');
   });
 
+  const [theme, setTheme] = useState(() => {
+    return localStorage.getItem('sunfi_theme') || 'dark';
+  });
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [showNameModal, setShowNameModal] = useState(false);
 
   const [sessions, setSessions] = useState(() => {
-    const saved = localStorage.getItem('sunfi_sessions');
-    if (saved) {
-      try { return JSON.parse(saved); } catch (e) {}
-    }
-    return [{ id: 'session-1', title: 'New Chat', messages: [] }];
+    return getStoredSessionsForUser(localStorage.getItem('sunfi_username') || '');
   });
 
   const [activeSessionId, setActiveSessionId] = useState(() => {
-    return sessions[0]?.id || 'session-1';
+    return sessions[0]?.id || `session-${Date.now()}`;
   });
 
   const [mode, setMode] = useState('turbo');
@@ -36,9 +69,32 @@ export default function App() {
     }
   }, [userName]);
 
+  // Reload sessions & avatar whenever userName changes
   useEffect(() => {
-    localStorage.setItem('sunfi_sessions', JSON.stringify(sessions));
-  }, [sessions]);
+    if (userName) {
+      const userSessions = getStoredSessionsForUser(userName);
+      setSessions(userSessions);
+      setActiveSessionId(userSessions[0]?.id || `session-${Date.now()}`);
+      setUserAvatar(getStoredAvatarForUser(userName));
+    }
+  }, [userName]);
+
+  // Persist sessions per user
+  useEffect(() => {
+    if (userName) {
+      const key = getUserKey(userName);
+      localStorage.setItem(`sunfi_sessions_${key}`, JSON.stringify(sessions));
+    }
+  }, [sessions, userName]);
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('sunfi_theme', theme);
+  }, [theme]);
+
+  const handleToggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   const handleSaveName = (name) => {
     setUserName(name);
@@ -48,7 +104,10 @@ export default function App() {
 
   const handleUploadAvatar = (base64Image) => {
     setUserAvatar(base64Image);
-    localStorage.setItem('sunfi_user_avatar', base64Image);
+    if (userName) {
+      const key = getUserKey(userName);
+      localStorage.setItem(`sunfi_avatar_${key}`, base64Image);
+    }
   };
 
   const handleNewChat = () => {
@@ -56,13 +115,34 @@ export default function App() {
     const newSession = { id: newId, title: 'New Chat', messages: [] };
     setSessions((prev) => [newSession, ...prev]);
     setActiveSessionId(newId);
+    setIsSidebarOpen(false);
+  };
+
+  const handleSelectSession = (id) => {
+    setActiveSessionId(id);
+    setIsSidebarOpen(false);
+  };
+
+  const handleGoHome = () => {
+    setIsSidebarOpen(false);
+    const active = sessions.find((s) => s.id === activeSessionId);
+    if (active && active.messages.length === 0) {
+      return;
+    }
+    handleNewChat();
   };
 
   const handleDeleteSession = (id) => {
     const updated = sessions.filter((s) => s.id !== id);
-    setSessions(updated);
-    if (activeSessionId === id && updated.length > 0) {
-      setActiveSessionId(updated[0].id);
+    if (updated.length === 0) {
+      const freshSession = { id: `session-${Date.now()}`, title: 'New Chat', messages: [] };
+      setSessions([freshSession]);
+      setActiveSessionId(freshSession.id);
+    } else {
+      setSessions(updated);
+      if (activeSessionId === id) {
+        setActiveSessionId(updated[0].id);
+      }
     }
   };
 
@@ -132,7 +212,7 @@ export default function App() {
   };
 
   return (
-    <div className="app-container">
+    <div className="app-container" data-theme={theme}>
       {showNameModal && (
         <NameModal onSubmit={handleSaveName} initialName={userName} />
       )}
@@ -140,13 +220,18 @@ export default function App() {
       <Sidebar
         sessions={sessions}
         activeSessionId={activeSessionId}
-        onSelectSession={setActiveSessionId}
+        onSelectSession={handleSelectSession}
         onNewChat={handleNewChat}
         onDeleteSession={handleDeleteSession}
         userName={userName || 'Bondhu'}
         userAvatar={userAvatar}
         onEditName={() => setShowNameModal(true)}
         onUploadAvatar={handleUploadAvatar}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
+        onGoHome={handleGoHome}
+        isOpen={isSidebarOpen}
+        onClose={() => setIsSidebarOpen(false)}
       />
 
       <ChatView
@@ -157,6 +242,8 @@ export default function App() {
         userAvatar={userAvatar}
         onSendMessage={handleSendMessage}
         isLoading={isLoading}
+        onGoHome={handleGoHome}
+        onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
       />
     </div>
   );

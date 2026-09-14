@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import {
-  Zap,
+  TrendingUp,
   Brain,
   HeartOff,
   GraduationCap,
-  Users,
+  Moon,
   Compass,
   ShieldAlert,
   Sparkles
@@ -13,16 +13,16 @@ import {
 export default function Landing({ userName, onSelectPrompt }) {
   const greetings = [
     `Ki khobor, ${userName}?`,
-    `Orey bhai, abar ki hoise?`,
+    `Orey bhai, ki hoise?`,
     `Bol bhai, ajke ki niye pera?`,
     `Kemon achos, legend?`,
-    `Welcome back, unemployed philosopher.`,
+    `Ki chai?`,
     `Abar ashchos?`,
     `Ki chai eibar?`
   ];
 
   const subtitles = [
-    "AI ready. Tor logic ekhono ready na.",
+    "Tor logic ekhono ready na.",
     "Bol bhai, moner kotha ber kor.",
     "Serious question korle serious answer pabi... probably.",
     "Tor problem amar problem na, but bol."
@@ -38,9 +38,9 @@ export default function Landing({ userName, onSelectPrompt }) {
 
   const suggestionCards = [
     {
-      title: "Roast Me",
-      text: "Mama ajke amake ektu heavy roast koro to!",
-      icon: <Zap size={16} className="card-icon" />
+      title: "Career Plan",
+      text: "Bhai amar billionaire howar kono shortcut ache?",
+      icon: <TrendingUp size={16} className="card-icon" />
     },
     {
       title: "Life Crisis",
@@ -58,9 +58,9 @@ export default function Landing({ userName, onSelectPrompt }) {
       icon: <GraduationCap size={16} className="card-icon" />
     },
     {
-      title: "Friend Group",
-      text: "Amader group-er moddhe ashol clown ke?",
-      icon: <Users size={16} className="card-icon" />
+      title: "Late Night Thought",
+      text: "Mama raat 3 ta baje ei oshobbho chinta keno ashe?",
+      icon: <Moon size={16} className="card-icon" />
     },
     {
       title: "Philosophical",

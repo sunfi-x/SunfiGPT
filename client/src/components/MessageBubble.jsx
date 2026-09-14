@@ -16,7 +16,7 @@ export default function MessageBubble({ message, userName, userAvatar }) {
         ) : (
           !imgError ? (
             <img
-              src="/sunfi.png"
+              src="/sunfi.jpg"
               alt="Sunfi"
               className="avatar-img"
               onError={() => setImgError(true)}
